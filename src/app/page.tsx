@@ -1,4 +1,7 @@
-import { ArchiveIcon } from "lucide-react"
+import { ArchiveIcon, MessageCircleIcon, ThumbsUpIcon } from "lucide-react";
+import { Button } from "@/components/button";
+import { Card } from "@/components/card";
+import { Section } from "@/components/section";
 
 export default function Home() {
   return (
@@ -6,22 +9,37 @@ export default function Home() {
       <div />
 
       <main className="grid grid-cols-4 gap-5 flex-1 items-stretch">
-        <div className="bg-navy-800 rounded-xl border-[0.5px] border-navy-500 pt-3 flex flex-col gap-1">
-          <div className="flex items-center justify-between px-3">
-            <span className="bg-navy-700 rounded-lg px-3 py-1.5 flex items-center gap-2 text-xs">
+        <Section.Root>
+          <Section.Header>
+            <Section.Title>
               <ArchiveIcon className="size-3" />
               Backlog
-            </span>
-            <span className="text-xs text-navy-200">16</span>
-          </div>
+            </Section.Title>
+            <Section.Count>16</Section.Count>
+          </Section.Header>
 
-          <div className="flex flex-col gap-2.5 overflow-y-auto p-3">
-            <div>card 1</div>
-            <div>card 2</div>
-            <div>card 3</div>
-          </div>
-        </div>
+          <Section.Content>
+            <Card.Root>
+              <Card.Header>
+                <Card.Number>TECH-001</Card.Number>
+                <Card.Title>Implement credit card payment</Card.Title>
+              </Card.Header>
+
+              <Card.Footer>
+                <Button>
+                  <ThumbsUpIcon className="size-3" />
+                  <span className="text-sm">12</span>
+                </Button>
+
+                <Button>
+                  <MessageCircleIcon className="size-3" />
+                  <span className="text-sm">4</span>
+                </Button>
+              </Card.Footer>
+            </Card.Root>
+          </Section.Content>
+        </Section.Root>
       </main>
     </div>
-  )
+  );
 }
