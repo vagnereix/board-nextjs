@@ -2,11 +2,12 @@ import { ArchiveIcon, MessageCircleIcon, ThumbsUpIcon } from "lucide-react";
 import { Button } from "@/components/button";
 import { Card } from "@/components/card";
 import { Section } from "@/components/section";
+import { Header } from "@/features/board/components/header";
 
 export default function Home() {
   return (
     <div className="max-w-[1620px] w-full mx-auto p-10 flex flex-col gap-8 h-dvh">
-      <div />
+      <Header />
 
       <main className="grid grid-cols-4 gap-5 flex-1 items-stretch">
         <Section.Root>
