@@ -1,14 +1,19 @@
 import { ArchiveIcon, MessageCircleIcon, ThumbsUpIcon } from "lucide-react";
+import type { Metadata } from "next";
 import { Button } from "@/components/button";
 import { Card } from "@/components/card";
 import { Section } from "@/components/section";
 import { Header } from "@/features/board/components/header";
 
-type HomeProps = {
+export const metadata: Metadata = {
+  title: "Board",
+};
+
+type BoardProps = {
   searchParams: Promise<{ q?: string }>;
 };
 
-export default async function Home({ searchParams }: HomeProps) {
+export default async function Board({ searchParams }: BoardProps) {
   const { q } = await searchParams;
 
   return (
