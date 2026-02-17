@@ -6,14 +6,13 @@ import type { ChangeEvent } from "react";
 import { Input } from "@/components/input";
 
 export function SearchInput() {
-  const [search, setSearch] = useQueryState("q", parseAsString.withDefault(""));
+  const [search, setSearch] = useQueryState("q", parseAsString.withDefault("").withOptions({ shallow: false }));
 
   function handleSearch(event: ChangeEvent<HTMLInputElement>) {
     const value = event.target.value;
     const limitUrlUpdates = debounce(500);
 
     setSearch(event.target.value, {
-      shallow: true,
       limitUrlUpdates: value === "" ? undefined : limitUrlUpdates,
     });
   }

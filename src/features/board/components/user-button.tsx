@@ -32,6 +32,7 @@ export function UserButton() {
         onClick={handleSignOut}
         className="cursor-pointer size-8 rounded-full overflow-hidden"
       >
+        {/** biome-ignore lint/performance/noImgElement: GitHub already optimizes the image */}
         <img
           src={session.user.image ?? ""}
           alt={session.user.name ?? ""}

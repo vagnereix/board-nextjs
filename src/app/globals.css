@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@plugin 'tailwind-scrollbar' {
+  nocompatible: true;
+}
 
 @theme {
   --color-navy-950: #16161d;
@@ -17,5 +20,6 @@
 @layer base {
   * {
     @apply outline-none focus-visible:ring-2 focus-visible:ring-navy-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-950;
+    @apply scrollbar-thin scrollbar-thumb-navy-600 scrollbar-track-transparent scrollbar-thumb-rounded-full;
   }
 }
