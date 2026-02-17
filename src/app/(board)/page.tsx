@@ -4,6 +4,7 @@ import { Button } from "@/components/button";
 import { Card } from "@/components/card";
 import { Section } from "@/components/section";
 import { Header } from "@/features/board/components/header";
+import { listIssues } from "@/features/board/http/list-issues";
 
 export const metadata: Metadata = {
   title: "Board",
@@ -16,39 +17,31 @@ type BoardProps = {
 export default async function Board({ searchParams }: BoardProps) {
   const { q } = await searchParams;
 
+  const issues = await listIssues();
+
   return (
     <div className="max-w-[1620px] w-full mx-auto p-10 flex flex-col gap-8 h-dvh">
       <Header />
 
-      <main className="grid grid-cols-4 gap-5 flex-1 items-stretch">
+      <main className="grid grid-cols-4 gap-5 flex-1 min-h-0 items-stretch">
         <Section.Root>
           <Section.Header>
             <Section.Title>
               <ArchiveIcon className="size-3" />
               Backlog
             </Section.Title>
-            <Section.Count>16</Section.Count>
+            <Section.Count>{issues.backlog.length}</Section.Count>
           </Section.Header>
 
           <Section.Content>
-            <Card.Root>
-              <Card.Header>
-                <Card.Number>TECH-001</Card.Number>
-                <Card.Title>Implement credit card payment</Card.Title>
-              </Card.Header>
-
-              <Card.Footer>
-                <Button>
-                  <ThumbsUpIcon className="size-3" />
-                  <span className="text-sm">12</span>
-                </Button>
-
-                <Button>
-                  <MessageCircleIcon className="size-3" />
-                  <span className="text-sm">4</span>
-                </Button>
-              </Card.Footer>
-            </Card.Root>
+            {issues.backlog.map((issue) => (
+              <Card.Root key={issue.id}>
+                <Card.Header>
+                  <Card.Number>ISS-{issue.issueNumber}</Card.Number>
+                  <Card.Title>{issue.title}</Card.Title>
+                </Card.Header>
+              </Card.Root>
+            ))}
           </Section.Content>
         </Section.Root>
       </main>

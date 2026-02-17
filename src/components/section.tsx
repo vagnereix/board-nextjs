@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 type SectionRootProps = ComponentProps<"div"> & {};
 
 function SectionRoot({ className, ...props }: SectionRootProps) {
-  return <div className={twMerge("bg-navy-800 rounded-xl border-[0.5px] border-navy-500 pt-3 flex flex-col gap-1", className)} {...props} />
+  return <div className={twMerge("bg-navy-800 rounded-xl border-[0.5px] border-navy-500 pt-3 flex flex-col gap-1 h-full min-h-0", className)} {...props} />
 }
 
 type SectionHeaderProps = ComponentProps<"header"> & {};
@@ -28,7 +28,7 @@ function SectionCount({ className, ...props }: SectionCountProps) {
 type SectionContentProps = ComponentProps<"main"> & {};
 
 function SectionContent({ className, ...props }: SectionContentProps) {
-  return <main className={twMerge("flex flex-col gap-2.5 overflow-y-auto p-3", className)} {...props} />
+  return <main className={twMerge("flex flex-col gap-2.5 overflow-y-auto p-3 flex-1 min-h-0", className)} {...props} />
 }
 
 export const Section = {
