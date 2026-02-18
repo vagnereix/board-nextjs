@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ComponentProps } from "react";
 import { twMerge } from 'tailwind-merge';
 
@@ -7,6 +8,21 @@ function CardRoot({ className, ...props }: CardRootProps) {
   return (
     <a 
       href="/"
+      className={twMerge(
+        "bg-navy-700 border-[0.5px] border-navy-600 p-3 space-y-4 rounded-lg block",
+        "hover:bg-navy-600/50 hover:border-navy-500 transition-colors duration-150",
+        className,
+      )}
+      {...props}
+    />
+  )
+}
+
+type CardRootLinkProps = ComponentProps<typeof Link> & {};
+
+function CardRootLink({ className, ...props }: CardRootLinkProps) {
+  return (
+    <Link
       className={twMerge(
         "bg-navy-700 border-[0.5px] border-navy-600 p-3 space-y-4 rounded-lg block",
         "hover:bg-navy-600/50 hover:border-navy-500 transition-colors duration-150",
@@ -43,6 +59,7 @@ function CardFooter({ className, ...props }: CardFooterProps) {
 
 export const Card = {
   Root: CardRoot,
+  RootLink: CardRootLink,
   Title: CardTitle,
   Number: CardNumber,
   Header: CardHeader,

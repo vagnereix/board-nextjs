@@ -24,12 +24,12 @@ export function IssuesList({ title, issues }: IssuesListProps) {
 
       <Section.Content>
         {issues.length > 0 ? issues.map((issue) => (
-          <Card.Root key={issue.id}>
+          <Card.RootLink key={issue.id} href={`/issues/${issue.id}`}>
             <Card.Header>
               <Card.Number>ISS-{issue.issueNumber}</Card.Number>
               <Card.Title>{issue.title}</Card.Title>
             </Card.Header>
-          </Card.Root>
+          </Card.RootLink>
         )) : (
           <div className="flex items-center justify-center py-8 text-center">
             <p className="text-sm text-navy-300">No issues matching your filters</p>

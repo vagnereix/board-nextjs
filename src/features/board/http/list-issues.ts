@@ -1,5 +1,5 @@
-import { env } from "process";
 import { IssuesListResponseSchema } from "@/api/routes/list-issues";
+import { env } from "@/env";
 
 type ListIssuesParams = {
   search?: string;
