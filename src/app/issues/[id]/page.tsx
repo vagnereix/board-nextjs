@@ -2,6 +2,7 @@ import { ArchiveIcon, MoveLeftIcon, ThumbsUpIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/button";
+import IssueCommentsList from "@/features/board/components/issue-comments-list";
 import { getIssue } from "@/features/board/http/get-issue";
 
 type IssuePageProps = {
@@ -49,7 +50,7 @@ export default async function IssuePage({ params }: IssuePageProps) {
           <ArchiveIcon className="size-3" />
           {statusLabels[issue.status]}
         </span>
-      
+
         <Button>
           <ThumbsUpIcon className="size-3" />
           <span className="text-sm">12</span>
@@ -58,7 +59,19 @@ export default async function IssuePage({ params }: IssuePageProps) {
 
       <div className="space-y-2">
         <h1 className="font-semibold text-2xl">{issue.title}</h1>
-        <p className="text-navy-100 text-sm leading-relaxed">{issue.description}</p>
+        <p className="text-navy-100 text-sm leading-relaxed">
+          {issue.description}
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <span className="font-semibold">Comments</span>
+
+        <form action=""></form>
+
+        <div className="mt-3">
+          <IssueCommentsList issueId={id} />
+        </div>
       </div>
     </main>
   );
