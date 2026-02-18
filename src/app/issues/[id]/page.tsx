@@ -1,18 +1,16 @@
 import {
   ArchiveIcon,
   MessageCirclePlusIcon,
-  MoveLeftIcon,
-  ThumbsUpIcon,
 } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Suspense } from "react";
-import { Button } from "@/components/button";
 import { Input } from "@/components/input";
+import { Skeleton } from "@/components/skeleton";
 import { BackToBoardLink } from "@/features/board/components/back-to-board-link";
 import IssueCommentsList, {
   IssueCommentsListSkeleton,
 } from "@/features/board/components/issue-comments-list";
+import { IssueLikeButton } from "@/features/board/components/issue-like-button";
 import { getIssue } from "@/features/board/http/get-issue";
 
 type IssuePageProps = {
@@ -55,10 +53,9 @@ export default async function IssuePage({ params }: IssuePageProps) {
           {statusLabels[issue.status]}
         </span>
 
-        <Button>
-          <ThumbsUpIcon className="size-3" />
-          <span className="text-sm">12</span>
-        </Button>
+        <Suspense fallback={<Skeleton className="h-7 w-16" />}>
+          <IssueLikeButton issueId={issue.id} />
+        </Suspense>
       </div>
 
       <div className="space-y-2">
@@ -72,7 +69,10 @@ export default async function IssuePage({ params }: IssuePageProps) {
         <span className="font-semibold">Comments</span>
 
         <form action="" className="relative w-full">
-          <Input className="bg-navy-900 h-11 pr-24 w-full" placeholder="Leave a comment..." />
+          <Input
+            className="bg-navy-900 h-11 pr-24 w-full"
+            placeholder="Leave a comment..."
+          />
 
           <button
             type="button"

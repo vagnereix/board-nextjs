@@ -1,15 +1,10 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { and, eq, sql } from "drizzle-orm";
+import { LikeResponseSchema } from "@/api/routes/schemas/toggle-like";
 import type { AuthSession } from "../auth";
 import { db } from "../db";
 import { issueLikes, issues } from "../db/schema";
 import { requireAuth } from "../middlewares/auth";
-
-const LikeResponseSchema = z.object({
-  id: z.uuidv4(),
-  likes: z.number().int(),
-  liked: z.boolean(),
-});
 
 const ErrorSchema = z.object({
   error: z.string(),
