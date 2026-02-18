@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ThumbsUpIcon } from "lucide-react";
-import type { ComponentProps } from "react";
+import type { ComponentProps, MouseEvent } from "react";
 import type z from "zod";
 import type { IssueInteractionsResponseSchema } from "@/api/routes/schemas/issue-interactions";
 import { Button } from "@/components/button";
@@ -25,17 +25,17 @@ export function LikeButton({
 }: LikeButtonProps) {
   const queryClient = useQueryClient();
 
-  const { mutate: toggleToggleLike, isPending } = useMutation({
+  const { mutate: onToggleLike, isPending } = useMutation({
     mutationFn: () => toggleLike({ issueId }),
     onMutate: async () => {
-      let previousData: IssueInteractionsResponse | undefined;
+      const previousData = queryClient.getQueriesData<IssueInteractionsResponse>({
+        queryKey: IssuesQueryKeys.issueInteractions(),
+      });
 
-      queryClient.setQueryData<IssueInteractionsResponse>(
-        IssuesQueryKeys.issueInteractions([issueId]),
+      queryClient.setQueriesData<IssueInteractionsResponse>(
+        { queryKey: IssuesQueryKeys.issueInteractions() },
         (old) => {
           if (!old) return old;
-
-          previousData = old;
 
           return {
             ...old,
@@ -59,21 +59,28 @@ export function LikeButton({
       return { previousData };
     },
     onError: (_err, _params, context) => {
-      queryClient.setQueryData(
-        IssuesQueryKeys.issueInteractions([issueId]),
-        context?.previousData,
-      );
+      if (context?.previousData) {
+        for (const [queryKey, data] of context.previousData) {
+          queryClient.setQueryData(queryKey, data);
+        }
+      }
     },
   });
 
   const liked = initialLiked;
+
+  function handleToggleLike(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    onToggleLike();
+  }
 
   return (
     <Button
       data-liked={liked}
       className="data-[liked=true]:bg-indigo-600 data-[liked=true]:text-white data-[liked=true]:hover:bg-indigo-500"
       aria-label={liked ? "Unlike" : "Like"}
-      onClick={() => toggleToggleLike()}
+      onClick={handleToggleLike}
       disabled={isPending}
       {...props}
     >

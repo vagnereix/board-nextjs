@@ -5,7 +5,6 @@ import {
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Input } from "@/components/input";
-import { Skeleton } from "@/components/skeleton";
 import { BackToBoardLink } from "@/features/board/components/back-to-board-link";
 import IssueCommentsList, {
   IssueCommentsListSkeleton,
@@ -53,9 +52,7 @@ export default async function IssuePage({ params }: IssuePageProps) {
           {statusLabels[issue.status]}
         </span>
 
-        <Suspense fallback={<Skeleton className="h-7 w-16" />}>
-          <IssueLikeButton issueId={issue.id} />
-        </Suspense>
+        <IssueLikeButton issueId={issue.id} />
       </div>
 
       <div className="space-y-2">
