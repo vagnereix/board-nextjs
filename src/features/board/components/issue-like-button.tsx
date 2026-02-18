@@ -11,7 +11,7 @@ type IssueLikeButtonProps = {
 
 export function IssueLikeButton({ issueId }: IssueLikeButtonProps) {
   const { data } = useSuspenseQuery({
-    queryKey: IssuesQueryKeys.issueInteractions(issueId),
+    queryKey: IssuesQueryKeys.issueInteractions([issueId]),
     queryFn: () => getIssueInteractions({ issueIds: [issueId] }),
   });
 

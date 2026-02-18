@@ -31,7 +31,7 @@ export function LikeButton({
       let previousData: IssueInteractionsResponse | undefined;
 
       queryClient.setQueryData<IssueInteractionsResponse>(
-        IssuesQueryKeys.issueInteractions(issueId),
+        IssuesQueryKeys.issueInteractions([issueId]),
         (old) => {
           if (!old) return old;
 
@@ -60,7 +60,7 @@ export function LikeButton({
     },
     onError: (_err, _params, context) => {
       queryClient.setQueryData(
-        IssuesQueryKeys.issueInteractions(issueId),
+        IssuesQueryKeys.issueInteractions([issueId]),
         context?.previousData,
       );
     },
