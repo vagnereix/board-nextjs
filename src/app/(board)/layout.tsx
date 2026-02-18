@@ -1,7 +1,9 @@
 import type { ReactNode } from "react";
+import { Suspense } from "react";
 import { Header } from "@/components/header";
 import { SearchInput } from "@/components/header/search-input";
 import { UserButton } from "@/components/header/user-button";
+import { Skeleton } from "@/components/skeleton";
 
 export default function BoardLayout({
   children,
@@ -17,7 +19,9 @@ export default function BoardLayout({
         </Header.Content>
 
         <Header.Footer>
-          <SearchInput />
+          <Suspense fallback={<Skeleton className="w-2xs h-10" />}>
+            <SearchInput />
+          </Suspense>
           <UserButton />
         </Header.Footer>
       </Header.Root>
