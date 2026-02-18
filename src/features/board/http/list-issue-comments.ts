@@ -1,3 +1,4 @@
+import { setTimeout } from "node:timers/promises";
 import { CommentsListResponseSchema } from "@/api/routes/list-issue-comments";
 import { env } from "@/env";
 
@@ -7,8 +8,17 @@ type ListIssueCommentsParams = {
   offset?: number;
 };
 
-export async function listIssueComments({ issueId, limit = 5, offset = 0 }: ListIssueCommentsParams) {
-  const url = new URL(`/api/issues/${issueId}/comments`, env.NEXT_PUBLIC_API_URL);
+export async function listIssueComments({
+  issueId,
+  limit = 5,
+  offset = 0,
+}: ListIssueCommentsParams) {
+  const url = new URL(
+    `/api/issues/${issueId}/comments`,
+    env.NEXT_PUBLIC_API_URL,
+  );
+
+  await setTimeout(1000);
 
   if (limit) {
     url.searchParams.set("limit", limit.toString());
@@ -20,6 +30,6 @@ export async function listIssueComments({ issueId, limit = 5, offset = 0 }: List
 
   const response = await fetch(url);
   const comments = await response.json();
-  
+
   return CommentsListResponseSchema.parse(comments);
 }

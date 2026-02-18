@@ -17,7 +17,7 @@ function CommentAvatar({ className, ...props }: CommentAvatarProps) {
 type CommentContentProps = ComponentProps<"div"> & {};
 
 function CommentContent({ className, ...props }: CommentContentProps) {
-  return <div className={twMerge("flex-1 px-3 py-2.5 rounded-lg bg-navy-800 border-[0.5px] border-navy-600 flex flex-col gap-1", className)} {...props} />
+  return <div className={twMerge("flex-1 px-3 py-2.5 rounded-lg bg-navy-700 border-[0.5px] border-navy-600 flex flex-col gap-1", className)} {...props} />
 }
 
 type CommentHeaderProps = ComponentProps<"header"> & {};

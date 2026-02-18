@@ -1,8 +1,12 @@
 import { ArchiveIcon, MoveLeftIcon, ThumbsUpIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Button } from "@/components/button";
-import IssueCommentsList from "@/features/board/components/issue-comments-list";
+import { BackToBoardLink } from "@/features/board/components/back-to-board-link";
+import IssueCommentsList, {
+  IssueCommentsListSkeleton,
+} from "@/features/board/components/issue-comments-list";
 import { getIssue } from "@/features/board/http/get-issue";
 
 type IssuePageProps = {
@@ -37,13 +41,7 @@ export default async function IssuePage({ params }: IssuePageProps) {
 
   return (
     <main className="max-w-7xl mx-auto w-full flex flex-col gap-4 p-6 bg-navy-800 border-[0.5px] border-navy-500 rounded-xl">
-      <Link
-        href="/"
-        className="flex items-center gap-2 text-navy-200 hover:text-navy-100 transition-colors duration-150"
-      >
-        <MoveLeftIcon className="size-4" />
-        <span className="text-xs">Back to board</span>
-      </Link>
+      <BackToBoardLink />
 
       <div className="flex items-center gap-2">
         <span className="bg-navy-700 rounded-lg px-3 py-1.5 flex items-center gap-2 text-xs">
@@ -70,7 +68,9 @@ export default async function IssuePage({ params }: IssuePageProps) {
         <form action=""></form>
 
         <div className="mt-3">
-          <IssueCommentsList issueId={id} />
+          <Suspense fallback={<IssueCommentsListSkeleton />}>
+            <IssueCommentsList issueId={id} />
+          </Suspense>
         </div>
       </div>
     </main>
