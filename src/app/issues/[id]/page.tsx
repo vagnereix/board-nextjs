@@ -1,16 +1,16 @@
-import {
-  ArchiveIcon,
-  MessageCirclePlusIcon,
-} from "lucide-react";
+import { ArchiveIcon } from "lucide-react";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Suspense } from "react";
-import { Input } from "@/components/input";
 import { BackToBoardLink } from "@/features/board/components/back-to-board-link";
+import { IssueCommentForm } from "@/features/board/components/issue-comment-form";
 import IssueCommentsList, {
   IssueCommentsListSkeleton,
 } from "@/features/board/components/issue-comments-list";
 import { IssueLikeButton } from "@/features/board/components/issue-like-button";
+import { createComment } from "@/features/board/http/create-comment";
 import { getIssue } from "@/features/board/http/get-issue";
+import { authClient } from "@/lib/auth-client";
 
 type IssuePageProps = {
   params: Promise<{
@@ -40,7 +40,20 @@ const statusLabels = {
 export default async function IssuePage({ params }: IssuePageProps) {
   const { id } = await params;
 
+  const { data: session } = await authClient.getSession({
+    fetchOptions: {
+      headers: await headers(),
+    },
+  });
+
+  const isAuthenticated = !!session?.user;
+
   const issue = await getIssue({ id });
+
+  async function handleCreateComment(text: string) {
+    "use server";
+    await createComment({ issueId: id, text });
+  }
 
   return (
     <main className="max-w-7xl mx-auto w-full flex flex-col gap-4 p-6 bg-navy-800 border-[0.5px] border-navy-500 rounded-xl">
@@ -65,20 +78,10 @@ export default async function IssuePage({ params }: IssuePageProps) {
       <div className="flex flex-col gap-2">
         <span className="font-semibold">Comments</span>
 
-        <form action="" className="relative w-full">
-          <Input
-            className="bg-navy-900 h-11 pr-24 w-full"
-            placeholder="Leave a comment..."
-          />
-
-          <button
-            type="button"
-            className="cursor-pointer disabled:opacity-50 flex items-center gap-2 transition-colors duration-150 text-indigo-400 absolute right-3 top-1/2 -translate-y-1/2 text-xs hover:text-indigo-300"
-          >
-            Publish
-            <MessageCirclePlusIcon className="size-4" />
-          </button>
-        </form>
+        <IssueCommentForm
+          onCreateComment={handleCreateComment}
+          isAuthenticated={isAuthenticated}
+        />
 
         <div className="mt-3">
           <Suspense fallback={<IssueCommentsListSkeleton />}>
